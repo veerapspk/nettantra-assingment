@@ -32,7 +32,7 @@ const initializeDbAndServer = async () => {
 initializeDbAndServer();
 
 app.get("/sample/", (request, response) => {
-  response.send("<h1>champi dhengav</h1>");
+  response.send("<h1> hello welcome</h1>");
 });
 
 module.exports = app;
