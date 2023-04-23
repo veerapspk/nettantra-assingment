@@ -1,26 +1,5 @@
 
 
-POST http://localhost:3000/register/
-Content-Type: application/json
-
-{
-  "username": "satish",
-  "password": "veeraPspk",
-  "name": "Adam Richard",
-  "gender": "male"
-}
-
-###
-
-
-
-POST http://localhost:3000/login/
-Content-Type: application/json
-
-{
-  "username":"JoeBiden",
-  "password":"biden@123"
-}
 
 ###
 
@@ -72,3 +51,64 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkpvZ
 }
 
 ###
+GET  http://localhost:3000/sample/add
+
+###
+
+PUT http://localhost:3000/sample/show
+
+###
+
+POST http://localhost:3000/sample/send/
+
+###
+
+POST http://localhost:3000/user/register
+Content-Type: application/json
+
+{
+  "email": "kane",
+  "password": "veeraPspk",
+  "phone": "9339393939",
+  "fullName": "veerabau"
+}
+
+###
+
+
+
+POST http://localhost:3000/user/login
+Content-Type: application/json
+
+{
+  "email":"kane",
+  "password":"veeraPspk"
+}
+
+###
+PUT http://localhost:3000/user/update
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBzcGsiLCJpYXQiOjE2ODIyMzIzNzJ9.is63Pw83rRAKAb_t_h7347Uo-LEPBTOOZelNk48Kiak
+
+
+{
+  "newEmail":"rose",
+  "newPassword":"9182007102",
+  "newFullName":"jhon",
+   "newPhone":"87878787878"
+}
+
+###
+GET http://localhost:3000/user/data
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJvc2UiLCJpYXQiOjE2ODIyMzQ0MzR9.2jJUVPtUWffvVhHuFjf-DxiqkN3JhlB9BQ7khBJ1Ckk
+
+
+
+
+
+###
+
+POST http://localhost:3000/request
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBzcGsiLCJpYXQiOjE2ODIyMzIzNzJ9.is63Pw83rRAKAb_t_h7347Uo-LEPBTOOZelNk48Kiak
+
+
