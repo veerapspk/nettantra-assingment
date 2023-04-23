@@ -1,56 +1,6 @@
 
 
 
-###
-
-GET http://localhost:3000/user/tweets/feed/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkpvZUJpZGVuIiwiaWF0IjoxNjY5MTgxNzE0fQ.0pKPbVnX3_bCuvtFacF3c3zYC1wkACj7ZeZst8nSA0w
-
-###
-// api 4
-
-GET http://localhost:3000/user/following/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkpvZUJpZGVuIiwiaWF0IjoxNjY5MTgxNzE0fQ.0pKPbVnX3_bCuvtFacF3c3zYC1wkACj7ZeZst8nSA0w
-
-###
-//api 5
-
-GET http://localhost:3000/user/followers/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkpvZUJpZGVuIiwiaWF0IjoxNjY5MTgxNzE0fQ.0pKPbVnX3_bCuvtFacF3c3zYC1wkACj7ZeZst8nSA0w
-
-###
-
-
-// api 7
-
-GET http://localhost:3000/tweets/1/likes/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkpvZUJpZGVuIiwiaWF0IjoxNjY5MTgxNzE0fQ.0pKPbVnX3_bCuvtFacF3c3zYC1wkACj7ZeZst8nSA0w
-
-###
-
-//api 8
-
-GET http://localhost:3000/tweets/1/replies/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkpvZUJpZGVuIiwiaWF0IjoxNjY5MTgxNzE0fQ.0pKPbVnX3_bCuvtFacF3c3zYC1wkACj7ZeZst8nSA0w
-
-
-###
-// api 9
-
-GET http://localhost:3000/user/tweets/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkpvZUJpZGVuIiwiaWF0IjoxNjY5MTgxNzE0fQ.0pKPbVnX3_bCuvtFacF3c3zYC1wkACj7ZeZst8nSA0w
-
-
-###
-POST http://localhost:3000/user/tweets/
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkpvZUJpZGVuIiwiaWF0IjoxNjY5MTgxNzE0fQ.0pKPbVnX3_bCuvtFacF3c3zYC1wkACj7ZeZst8nSA0w
-
-{
-   "tweet": "The Mornings..."
-}
-
-###
 GET  http://localhost:3000/sample/add
 
 ###
@@ -59,7 +9,7 @@ PUT http://localhost:3000/sample/show
 
 ###
 
-POST http://localhost:3000/sample/send/
+DELETE  http://localhost:3000/sample/send/
 
 ###
 
@@ -84,11 +34,22 @@ Content-Type: application/json
   "email":"kane",
   "password":"veeraPspk"
 }
+###
+
+POST http://localhost:3000/request/update
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImthbmUiLCJpYXQiOjE2ODIyNDQ2NDB9.Xr4xa8sOHGps15BP75ATdvn33PQsRbfpyzoyKHhq1k4
+
+
+{
+    "woolen":"10"
+}
 
 ###
 PUT http://localhost:3000/user/update
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBzcGsiLCJpYXQiOjE2ODIyMzIzNzJ9.is63Pw83rRAKAb_t_h7347Uo-LEPBTOOZelNk48Kiak
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImthbmUiLCJpYXQiOjE2ODIyNDQ2NDB9.Xr4xa8sOHGps15BP75ATdvn33PQsRbfpyzoyKHhq1k4
+
 
 
 {
@@ -100,7 +61,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBzcGsiL
 
 ###
 GET http://localhost:3000/user/data
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJvc2UiLCJpYXQiOjE2ODIyMzQ0MzR9.2jJUVPtUWffvVhHuFjf-DxiqkN3JhlB9BQ7khBJ1Ckk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImthbmUiLCJpYXQiOjE2ODIyNDQ2NDB9.Xr4xa8sOHGps15BP75ATdvn33PQsRbfpyzoyKHhq1k4
+
 
 
 

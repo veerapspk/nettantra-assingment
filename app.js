@@ -31,28 +31,7 @@ const initializeDbAndServer = async () => {
 
 initializeDbAndServer();
 
-app.get("/sample/add", async (request, response) => {
-  let ok = "fdjkf";
-  try {
-    const db2 = "ALTER TABLE request_table ADD COLUMN date varchar(100)";
-    ok = await db.run(db2);
-  } catch (error) {
-    console.log(error);
-  }
-  console.log(ok);
-  response.send("ok");
-});
-
-app.get("/sample/send", async (request, response) => {
-  const dbQuery = `DELETE FROM temp `;
-  const x = await db.run(dbQuery);
-  const y = "SELECT * FROM temp";
-  const dbResponse = await db.all(y);
-
-  response.send(dbResponse);
-});
-
-// new jhj hkjhk iuhguiguo oi hiohio hih og
+// final code
 
 const authenticateToken = (request, response, next) => {
   let jwtToken;
@@ -88,10 +67,10 @@ app.post("/user/register/", async (request, response) => {
     const newUserQuery = `INSERT INTO temp (email,password,phone,full_name)
       VALUES ("${email}","${password}","${phone}","${fullName}");`;
     const dbResponse = await db.run(newUserQuery);
-    response.send({ jwtToken });
+    response.send({ success_mag: "Account Registered Successfully" });
   } else {
     response.status(400);
-    response.send("User Already Exist");
+    response.send({ error_msg: "User Already Exist" });
   }
 });
 
@@ -103,7 +82,7 @@ app.post("/user/login/", async (request, response) => {
 
   if (dbResponse === undefined) {
     response.status(400);
-    response.send("Invalid User");
+    response.send({ error_msg: "Invalid User" });
   } else {
     const checkPassword = password === dbResponse.password;
     if (checkPassword === true) {
@@ -115,7 +94,7 @@ app.post("/user/login/", async (request, response) => {
       response.send({ jwtToken });
     } else {
       response.status(400);
-      response.send("Email and Password Didn't Matched");
+      response.send({ error_msg: "Email and Password Didn't Matched" });
     }
   }
 });
@@ -146,7 +125,7 @@ app.post("/request/update", authenticateToken, async (request, response) => {
   } = request.body;
   const dbQuery = `INSERT INTO  request_table (email,top,bottom,woolen,others,date,status,notification) VALUES ("${email}","${top}","${bottom}","${woolen}","${others}","${date}","${status}",${notification});`;
   const dbResponse = await db.run(dbQuery);
-  response.send({ msg: "Request Sent" });
+  response.send({ success_msg: "Request Sent" });
 });
 
 app.put("/user/update", authenticateToken, async (request, response) => {
@@ -157,8 +136,6 @@ app.put("/user/update", authenticateToken, async (request, response) => {
   const checkUserQuery = `SELECT * FROM temp WHERE email="${newEmail}"`;
   let checkResponse = await db.get(checkUserQuery);
   if (newEmail === email || checkResponse === undefined) {
-    console.log("fdfjdkj");
-
     const dbQuery = `UPDATE temp SET email='${newEmail}',password='${newPassword}',full_name='${newFullName}',phone='${newPhone}' WHERE email='${email}'`;
     const tempResponse = await db.run(dbQuery);
 
@@ -174,11 +151,14 @@ app.put("/user/update", authenticateToken, async (request, response) => {
     console.log(y);
     const jwtToken = jwt.sign(payload, "MY_SECRET_TOKEN");
     console.log(jwtToken);
-    response.send({ jwtToken, msg: "Your Profile has Updated Successfully" });
+    response.send({
+      jwtToken,
+      success_msg: "Your Profile has Updated Successfully",
+    });
   } else {
     response.status(400);
     console.log(checkResponse);
-    response.send("Email Already Exist ");
+    response.send({ error_msg: "Email Already Exist " });
   }
 });
 module.exports = app;
