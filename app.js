@@ -30,7 +30,7 @@ const initializeDbAndServer = async () => {
 };
 
 initializeDbAndServer();
-// git token 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
+// git token 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
 // final code
 
 const authenticateToken = (request, response, next) => {
@@ -161,12 +161,13 @@ app.post("/request/update", authenticateToken, async (request, response) => {
     woolen = 0,
     others = 0,
     date,
-    notification = false,
-    status = "accepted",
+
+    status = "new request",
+    id,
   } = request.body;
   const nameQuery = `SELECT full_name from temp WHERE email='${email}`;
   const nameResponse = await db.get(nameQuery);
-  const dbQuery = `INSERT INTO  request_table (email,full_name,top,bottom,woolen,others,date,status,notification) VALUES ("${email}","${nameResponse.full_name}",${top}","${bottom}","${woolen}","${others}","${date}","${status}",${notification});`;
+  const dbQuery = `INSERT INTO  request_table (id,email,full_name,top,bottom,woolen,others,date,status) VALUES ("${id}","${email}","${nameResponse.full_name}",${top}","${bottom}","${woolen}","${others}","${date}","${status}");`;
 
   const dbResponse = await db.run(dbQuery);
   response.send({ success_msg: "Request Sent" });
