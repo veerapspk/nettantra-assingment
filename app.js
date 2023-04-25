@@ -56,9 +56,6 @@ const authenticateToken = (request, response, next) => {
 };
 
 app.get("/admin/create", async (request, response) => {
-  const dbQuery =
-    "ALTER TABLE request_table ADD COLUMN others_price varchar(100)";
-  const dbResponse = await db.run(dbQuery);
   response.send("ok");
 });
 
@@ -209,7 +206,7 @@ app.put("/user/update", authenticateToken, async (request, response) => {
   }
 });
 
-app.put("/user/update", authenticateToken, async (request, response) => {
+app.put("/admin/update", authenticateToken, async (request, response) => {
   const { newEmail, newPassword, newFullName, newPhone } = request.body;
   const { email } = request;
   console.log(email === newEmail);
