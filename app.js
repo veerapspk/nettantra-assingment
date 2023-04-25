@@ -30,7 +30,7 @@ const initializeDbAndServer = async () => {
 };
 
 initializeDbAndServer();
-
+// git token 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
 // final code
 
 const authenticateToken = (request, response, next) => {
@@ -54,6 +54,25 @@ const authenticateToken = (request, response, next) => {
     });
   }
 };
+
+app.get("/admin/create", async (request, response) => {
+  const dbQuery =
+    "ALTER TABLE request_table ADD COLUMN others_price varchar(100)";
+  const dbResponse = await db.run(dbQuery);
+  response.send("ok");
+});
+
+app.put(
+  "/admin/update/request/:id",
+  authenticateToken,
+  async (request, response) => {
+    const { id } = request.params;
+    const { status, othersPrice } = request.headers;
+    const dbQuery = `UPDATE  request_table SET status ='${status}',others_price='${othersPrice}' WHERE id='${id}'; `;
+    const dbResponse = await db.run(dbQuery);
+    response.send(dbResponse);
+  }
+);
 
 app.post("/user/register/", async (request, response) => {
   const { email, password, fullName, phone } = request.body;
@@ -99,6 +118,31 @@ app.post("/user/login/", async (request, response) => {
   }
 });
 
+app.post("/admin/login/", async (request, response) => {
+  const { email, password } = request.body;
+  console.log(email);
+  const query = `SELECT * FROM admin WHERE email LIKE "${email}";`;
+  const dbResponse = await db.get(query);
+
+  if (dbResponse === undefined) {
+    response.status(400);
+    response.send({ error_msg: "Invalid User" });
+  } else {
+    const checkPassword = password === dbResponse.password;
+    if (checkPassword === true) {
+      const payload = {
+        email: email,
+      };
+      const jwtToken = jwt.sign(payload, "MY_SECRET_TOKEN");
+      console.log(jwtToken);
+      response.send({ jwtToken });
+    } else {
+      response.status(400);
+      response.send({ error_msg: "Email and Password Didn't Matched" });
+    }
+  }
+});
+
 app.get("/user/data/", authenticateToken, async (request, response) => {
   const { email } = request;
   const dbQuery = `SELECT * FROM temp where email='${email}'`;
@@ -123,7 +167,10 @@ app.post("/request/update", authenticateToken, async (request, response) => {
     notification = false,
     status = "accepted",
   } = request.body;
-  const dbQuery = `INSERT INTO  request_table (email,top,bottom,woolen,others,date,status,notification) VALUES ("${email}","${top}","${bottom}","${woolen}","${others}","${date}","${status}",${notification});`;
+  const nameQuery = `SELECT full_name from temp WHERE email='${email}`;
+  const nameResponse = await db.get(nameQuery);
+  const dbQuery = `INSERT INTO  request_table (email,full_name,top,bottom,woolen,others,date,status,notification) VALUES ("${email}","${nameResponse.full_name}",${top}","${bottom}","${woolen}","${others}","${date}","${status}",${notification});`;
+
   const dbResponse = await db.run(dbQuery);
   response.send({ success_msg: "Request Sent" });
 });
@@ -153,7 +200,38 @@ app.put("/user/update", authenticateToken, async (request, response) => {
     console.log(jwtToken);
     response.send({
       jwtToken,
-      success_msg: "Your Profile has Updated Successfully",
+      success_msg: "Your Profile has been  Updated Successfully",
+    });
+  } else {
+    response.status(400);
+    console.log(checkResponse);
+    response.send({ error_msg: "Email Already Exist " });
+  }
+});
+
+app.put("/user/update", authenticateToken, async (request, response) => {
+  const { newEmail, newPassword, newFullName, newPhone } = request.body;
+  const { email } = request;
+  console.log(email === newEmail);
+
+  const checkUserQuery = `SELECT * FROM admin WHERE email="${newEmail}"`;
+  let checkResponse = await db.get(checkUserQuery);
+  if (newEmail === email || checkResponse === undefined) {
+    const dbQuery = `UPDATE admin SET email='${newEmail}',password='${newPassword}',full_name='${newFullName}',phone='${newPhone}' WHERE email='${email}'`;
+    const tempResponse = await db.run(dbQuery);
+
+    const payload = {
+      email: newEmail,
+    };
+
+    const x = `SELECT * FROM temp WHERE email="${newEmail}"`;
+    const y = await db.get(x);
+
+    const jwtToken = jwt.sign(payload, "MY_SECRET_TOKEN");
+
+    response.send({
+      jwtToken,
+      success_msg: "Your Profile has been Updated Successfully",
     });
   } else {
     response.status(400);
