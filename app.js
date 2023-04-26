@@ -55,8 +55,16 @@ const authenticateToken = (request, response, next) => {
   }
 };
 
-app.get("/admin/create", async (request, response) => {
-  response.send("ok");
+app.get("/admin/create/:id", async (request, response) => {
+  const { id } = request.params;
+  console.log(id);
+});
+
+app.get("/show/table", async (request, response) => {
+  const q =
+    "CREATE  TABLE request_table (full_name varchar(100),email varchar(100),date varchar(100),service_type varchar(100),description varchar(200),address varchar(200),id varchar(100),top varchar(50),bottom varchar(50),woolen varchar(50),others varchar(50),status varchar(100),others_price varchar(100))";
+  const dbResp = await db.run(q);
+  console.log(dbResp);
 });
 
 app.put(
@@ -153,24 +161,51 @@ app.get("/user/data/", authenticateToken, async (request, response) => {
   response.send(dbResponse);
 });
 
-app.post("/request/update", authenticateToken, async (request, response) => {
+app.get("/admin/data/", authenticateToken, async (request, response) => {
   const { email } = request;
-  const {
-    top = 0,
-    bottom = 0,
-    woolen = 0,
-    others = 0,
-    date,
 
-    status = "new request",
-    id,
-  } = request.body;
-  const nameQuery = `SELECT full_name from temp WHERE email='${email}`;
-  const nameResponse = await db.get(nameQuery);
-  const dbQuery = `INSERT INTO  request_table (id,email,full_name,top,bottom,woolen,others,date,status) VALUES ("${id}","${email}","${nameResponse.full_name}",${top}","${bottom}","${woolen}","${others}","${date}","${status}");`;
+  const dbQuery = `SELECT * FROM admin WHERE email="${email}"`;
+  const dbResponse = await db.get(dbQuery);
 
+  const requestsQuery = "SELECT * FROM request_table ";
+  const requestResponse = await db.all(requestsQuery);
+
+  dbResponse.requests = requestResponse;
+  response.send(dbResponse);
+});
+
+app.post(
+  "/user/request/update",
+  authenticateToken,
+  async (request, response) => {
+    const { email } = request;
+    const {
+      top,
+      bottom,
+      woolen,
+      others,
+      date,
+
+      status = "new request",
+      id,
+      serviceType,
+      description,
+      address,
+    } = request.body;
+    const nameQuery = `SELECT full_name from temp WHERE email='${email}`;
+    const nameResponse = await db.get(nameQuery);
+    const dbQuery = `INSERT INTO  request_table (description,service_type,address,othersPrice,id,email,full_name,top,bottom,woolen,others,date,status) VALUES ("${description}","${serviceType}","${address}","${othersPrice}",${id}","${email}","${nameResponse.full_name}",${top}","${bottom}","${woolen}","${others}","${date}","${status}");`;
+
+    const dbResponse = await db.run(dbQuery);
+    response.send({ success_msg: "Request Sent" });
+  }
+);
+app.put("/admin/request/update/:id", async (request, response) => {
+  const { status, othersPrice } = request.body;
+  const { id } = request.params;
+  const dbjQuery = `UPDATE  request_table SET status="${status}",others_price="${othersPrice}" WHERE id="${id}"`;
   const dbResponse = await db.run(dbQuery);
-  response.send({ success_msg: "Request Sent" });
+  response.send({ success_msg: "Your Request has been Updated" });
 });
 
 app.put("/user/update", authenticateToken, async (request, response) => {
@@ -233,7 +268,7 @@ app.put("/admin/update", authenticateToken, async (request, response) => {
     });
   } else {
     response.status(400);
-    console.log(checkResponse);
+
     response.send({ error_msg: "Email Already Exist " });
   }
 });
