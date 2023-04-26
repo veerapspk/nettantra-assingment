@@ -6,12 +6,11 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const app = express();
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-  })
-);
+app.use('/api', createProxyMiddleware({ target: 'https://nettantra-assingment-production.up.railway.app', changeOrigin: true }));
+
+app.use(cors());
 app.use(express.json());
 
 const dbPath = path.join(__dirname, "twitterClone.db");
