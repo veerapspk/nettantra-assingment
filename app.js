@@ -7,7 +7,11 @@ const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+  })
+);
 app.use(express.json());
 
 const dbPath = path.join(__dirname, "twitterClone.db");
@@ -31,7 +35,7 @@ const initializeDbAndServer = async () => {
 
 initializeDbAndServer();
 // git token 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
-// final code
+// final code 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
 
 const authenticateToken = (request, response, next) => {
   let jwtToken;
