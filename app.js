@@ -6,9 +6,15 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const app = express();
-const { createProxyMiddleware } = require('http-proxy-middleware');
+const { createProxyMiddleware } = require("http-proxy-middleware");
 
-app.use('/api', createProxyMiddleware({ target: 'https://nettantra-assingment-production.up.railway.app', changeOrigin: true }));
+app.use(
+  "/api",
+  createProxyMiddleware({
+    target: "https://nettantra-assingment-production.up.railway.app",
+    changeOrigin: true,
+  })
+);
 
 app.use(cors());
 app.use(express.json());
@@ -33,8 +39,8 @@ const initializeDbAndServer = async () => {
 };
 
 initializeDbAndServer();
-// git token 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
-// final code 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
+// git token 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
+// final code
 
 const authenticateToken = (request, response, next) => {
   let jwtToken;
@@ -181,6 +187,11 @@ app.post(
   "/user/request/update",
   authenticateToken,
   async (request, response) => {
+    response.set({
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+    });
     const { email } = request;
     const {
       top,
