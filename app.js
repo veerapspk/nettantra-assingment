@@ -7,14 +7,6 @@ const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const app = express();
 
-app.use(
-  "/api",
-  createProxyMiddleware({
-    target: "https://nettantra-assingment-production.up.railway.app",
-    changeOrigin: true,
-  })
-);
-
 app.use(cors());
 app.use(express.json());
 
