@@ -6,7 +6,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const app = express();
-const { createProxyMiddleware } = require("http-proxy-middleware");
 
 app.use(
   "/api",
@@ -66,7 +65,7 @@ const authenticateToken = (request, response, next) => {
 
 app.get("/admin/create/:id", async (request, response) => {
   const { id } = request.params;
-  console.log(id);
+  response.send(id);
 });
 
 app.get("/show/table", async (request, response) => {
@@ -184,14 +183,9 @@ app.get("/admin/data/", authenticateToken, async (request, response) => {
 });
 
 app.post(
-  "/user/request/update",
+  "/user/request/update/",
   authenticateToken,
   async (request, response) => {
-    response.set({
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Headers": "*",
-      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
-    });
     const { email } = request;
     const {
       top,
@@ -214,13 +208,17 @@ app.post(
     response.send({ success_msg: "Request Sent" });
   }
 );
-app.put("/admin/request/update/:id", async (request, response) => {
-  const { status, othersPrice } = request.body;
-  const { id } = request.params;
-  const dbjQuery = `UPDATE  request_table SET status="${status}",others_price="${othersPrice}" WHERE id="${id}"`;
-  const dbResponse = await db.run(dbQuery);
-  response.send({ success_msg: "Your Request has been Updated" });
-});
+app.put(
+  "/admin/request/update/:id",
+  authenticateToken,
+  async (request, response) => {
+    const { status, othersPrice } = request.body;
+    const { id } = request.params;
+    const dbjQuery = `UPDATE  request_table SET status="${status}",others_price="${othersPrice}" WHERE id="${id}"`;
+    const dbResponse = await db.run(dbQuery);
+    response.send({ success_msg: "Your Request has been Updated" });
+  }
+);
 
 app.put("/user/update", authenticateToken, async (request, response) => {
   const { newEmail, newPassword, newFullName, newPhone } = request.body;
