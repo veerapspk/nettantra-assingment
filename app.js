@@ -98,7 +98,8 @@ app.post("/user/register/", async (request, response) => {
     const newUserQuery = `INSERT INTO temp (email,password,phone,full_name)
       VALUES ("${email}","${password}","${phone}","${fullName}");`;
     const dbResponse = await db.run(newUserQuery);
-    response.send({ success_mag: "Account Registered Successfully" });
+    console.log(jwtToken);
+    response.send({ success_mag: "Account Registered Successfully", jwtToken });
   } else {
     response.status(400);
     response.send({ error_msg: "User Already Exist" });
@@ -187,23 +188,28 @@ app.post(
   async (request, response) => {
     const { email } = request;
     const {
-      top,
-      bottom,
-      woolen,
-      others,
-      date,
+      top = "0",
+      bottom = "0",
+      woolen = "0",
+      others = "0",
+      date = "0",
 
       status = "new request",
-      id,
-      serviceType,
-      description,
-      address,
+      id = "0",
+      serviceType = "0",
+      description = "0",
+      address = "0",
     } = request.body;
-    const nameQuery = `SELECT full_name from temp WHERE email='${email}`;
+    const othersPrice = "0";
+    const nameQuery = `SELECT full_name from temp WHERE email='${email}'`;
     const nameResponse = await db.get(nameQuery);
-    const dbQuery = `INSERT INTO  request_table (description,service_type,address,othersPrice,id,email,full_name,top,bottom,woolen,others,date,status) VALUES ("${description}","${serviceType}","${address}","${othersPrice}",${id}","${email}","${nameResponse.full_name}",${top}","${bottom}","${woolen}","${others}","${date}","${status}");`;
+    try {
+      const dbQuery = `INSERT INTO  request_table (description,service_type,address,others_price,id,email,full_name,top,bottom,woolen,others,date,status) VALUES ("${description}","${serviceType}","${address}","${othersPrice}","${id}","${email}","${nameResponse.full_name}","${top}","${bottom}","${woolen}","${others}","${date}","${status}");`;
 
-    const dbResponse = await db.run(dbQuery);
+      const dbResponse = await db.run(dbQuery);
+    } catch (error) {
+      console.log(error);
+    }
     response.send({ success_msg: "Request Sent" });
   }
 );
