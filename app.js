@@ -199,18 +199,19 @@ app.post(
       serviceType = "0",
       description = "0",
       address = "0",
-    } = request.body.detailsObj;
+    } = request.body;
     const othersPrice = "0";
     const nameQuery = `SELECT full_name from temp WHERE email='${email}'`;
     const nameResponse = await db.get(nameQuery);
-    try {
-      const dbQuery = `INSERT INTO  request_table (description,service_type,address,others_price,id,email,full_name,top,bottom,woolen,others,date,status) VALUES ("${description}","${serviceType}","${address}","${othersPrice}","${id}","${email}","${nameResponse.full_name}","${top}","${bottom}","${woolen}","${others}","${date}","${status}");`;
 
-      const dbResponse = await db.run(dbQuery);
-    } catch (error) {
-      console.log(error);
-    }
-    response.send({ success_msg: "Request Sent" });
+    const dbQuery = `INSERT INTO  request_table (description,service_type,address,others_price,id,email,full_name,top,bottom,woolen,others,date,status) VALUES ("${description}","${serviceType}","${address}","${othersPrice}","${id}","${email}","${nameResponse.full_name}","${top}","${bottom}","${woolen}","${others}","${date}","${status}");`;
+
+    const dbResponse = await db.run(dbQuery);
+
+    response.send({
+      success_msg: "Request Sent",
+      sample: { woolen, top, date, id },
+    });
   }
 );
 app.put(
