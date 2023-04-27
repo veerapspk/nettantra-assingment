@@ -30,14 +30,14 @@ POST http://localhost:3000/user/login
 Content-Type: application/json
 
 {
-  "email":"kane",
+  "email":"qwer",
   "password":"veeraPspk"
 }
 ###
 
-POST http://localhost:3000/request/update
+POST http://localhost:3000/user/request/update
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImthbmUiLCJpYXQiOjE2ODIyNDQ2NDB9.Xr4xa8sOHGps15BP75ATdvn33PQsRbfpyzoyKHhq1k4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InF3ZXIiLCJpYXQiOjE2ODI1ODk2NTJ9.tQOPv4XUgTuKZBd2lCTIQMRS2tNH3T430t_LAdRpvbo
 
 
 {
@@ -60,7 +60,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImthbmUiL
 
 ###
 GET http://localhost:3000/user/data
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImthbmUiLCJpYXQiOjE2ODIyNDQ2NDB9.Xr4xa8sOHGps15BP75ATdvn33PQsRbfpyzoyKHhq1k4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InF3ZXIiLCJpYXQiOjE2ODI1ODk2NTJ9.tQOPv4XUgTuKZBd2lCTIQMRS2tNH3T430t_LAdRpvbo
 
 
 

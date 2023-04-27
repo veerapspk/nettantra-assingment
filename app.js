@@ -199,7 +199,7 @@ app.post(
       serviceType = "0",
       description = "0",
       address = "0",
-    } = request.body;
+    } = request.body.detailsObj;
     const othersPrice = "0";
     const nameQuery = `SELECT full_name from temp WHERE email='${email}'`;
     const nameResponse = await db.get(nameQuery);
